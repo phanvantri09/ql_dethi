@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cate;
+use App\Models\Cates;
 use App\Models\quiz;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,10 @@ class QuizConTroller extends Controller
      */
     public function create()
     {
-       return view('admin.quiz.add');
+
+
+        $cate = Cate::all();
+       return view('admin.quiz.add',compact("cate"));
     }
 
     /**
@@ -43,7 +48,8 @@ class QuizConTroller extends Controller
             'c2' => 'required',
             'c3' => 'required',
             'c4' => 'required',
-            'traloi' => 'required'
+            'traloi' => 'required',
+            'id_cate' => 'required'
         ]);
         $pro = new quiz();
         $pro->cauhoi = $request->get('cauhoi');
@@ -52,6 +58,7 @@ class QuizConTroller extends Controller
         $pro->c3 = $request->get('c3');
         $pro->c4 = $request->get('c4');
         $pro->traloi = $request->get('traloi');
+        $pro->id_cate = $request->get('id_cate');
         
         $pro->save();
         return redirect()->back()->with('massage', 'success');
