@@ -24,7 +24,7 @@
                         </div>
                         @endif
                         @if(session()->has('massage'))
-                        
+
                         <div class="alert alert-success">
                             {{ session()->get('massage') }}
                         </div>
@@ -42,6 +42,12 @@
                                     <div class="mb-3">
                                         <input type="text" class="form-control bg-transparent" name="name" placeholder=" Tên Danh Mục">
                                     </div>
+                                   
+
+
+
+
+
                                 </div>
                                 <div class="text-start mt-4 mb-3">
                                     <button class="btn btn-primary btn-sl-sm me-2" type="submit"><span class="me-2"><i class="fa fa-paper-plane"></i></span>Submit</button>

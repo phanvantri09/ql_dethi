@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Cate;
 use Illuminate\Http\Request;
 
@@ -29,7 +29,9 @@ class CateController extends Controller
      */
     public function create()
     {
-        return view('admin.category.Add');
+
+        $user = User::all();
+        return view('admin.category.Add', compact("user"));
     }
 
     /**
@@ -42,12 +44,13 @@ class CateController extends Controller
     {
         $request->validate([
             'name' => ['required', 'unique:category', 'max:255'],
-
+           
         ]);
  
         $cate = new Cate();
       
         $cate->name = $request['name'];
+       
         $cate->save();
         return redirect()->back()->with('massage', 'success');
     }
