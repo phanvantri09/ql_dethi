@@ -13,7 +13,7 @@
             @else
             <li class="dropdown header-profile">
                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                   
+
                     <div class="header-info ms-3">
                         <span class="font-w600 ">Hi , {{ Auth::user()->name }}<b>
 
@@ -37,7 +37,7 @@
                       </span>
                     </div>
                 </a>
-             
+
             </li>
             @endguest
 
@@ -76,25 +76,23 @@
                     <li><a href="{{route('User1.index')}}">Danh Sách User</a></li>
                 </ul>
 
-
-
-
-
-
-
-
-
-                @elseif(Auth::user()->is_admin == 2)
+            @elseif(Auth::user()->is_admin == 2)
                 {{-- nhaf tuyeern dung --}}
             <li><a class="has-arrow ai-icon" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Trang Chủ</span>
                 </a>
 
-
             </li>
-
-          
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-050-info"></i>
+                    <span class="nav-text">Đề Thi </span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{route('add.exam')}}">Thêm </a></li>
+                    <li><a href="{{route('list.exam')}}">Danh sách</a></li>
+                </ul>
+            </li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-050-info"></i>
                     <span class="nav-text">Câu Hỏi Trắc Nghiệm </span>
