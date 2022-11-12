@@ -44,14 +44,13 @@ class CateController extends Controller
     {
         $request->validate([
             'name' => ['required', 'unique:category', 'max:255'],
-            'id_sub'=> ['required', 'unique:category', 'max:255'],
-
+           
         ]);
  
         $cate = new Cate();
       
         $cate->name = $request['name'];
-        $cate->id_sub = $request['id_sub'];
+       
         $cate->save();
         return redirect()->back()->with('massage', 'success');
     }

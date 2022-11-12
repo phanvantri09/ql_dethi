@@ -42,22 +42,7 @@
                                     <div class="mb-3">
                                         <input type="text" class="form-control bg-transparent" name="name" placeholder=" Tên Danh Mục">
                                     </div>
-                                    <div class="mb-3 row">
-                                      
-                                        <div class="col-lg-6">
-                                            <select class="default-select  form-control wide" name="id_sub">
-                                                @foreach ($user as $user)
-
-
-                                                @if ($user->is_admin == 2)
-                                                <option value="{{ $user -> id}}" >{{ $user -> name}}</option>
-                                                @endif
-
-
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                   
 
 
 
