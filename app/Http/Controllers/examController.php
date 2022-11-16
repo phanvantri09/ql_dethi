@@ -8,6 +8,12 @@ use App\Models\Cate;
 use App\Models\quiz;
 class examController extends Controller
 {
+    public function deleteQz($id){
+        Exam::find($id)->delete();
+        $data = Exam::all();
+        return view('admin.exam.index', compact('data'))->with('status', 'Delete Success');
+    }
+
     public function list(){
         $data = new Exam();
         $data = Exam::all();

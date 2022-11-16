@@ -39,5 +39,6 @@ Route::prefix('exam')->group(function () {
 
     Route::get('addQz/{id}', [examController::class, 'addQz'])->name('add.qz.exam');
     Route::post('addQzz', [examController::class, 'addQzPost'])->name('add.qz.exam.post');
+    Route::post('delete/{id}', [examController::class, 'deleteQz'])->name('delete.qz.exam');
 
 });

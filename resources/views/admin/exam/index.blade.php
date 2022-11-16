@@ -49,25 +49,12 @@
                                                     <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">add Qz</button>
 
                                             </a>
-                                                <a href="{{route('Quiz.show',$pro->id)}}" >
 
-                                                    <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Show</button>
+                                            <a href="{{route('delete.qz.exam',['id'=> $pro->id])}}">
+
+                                                <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Delete</button>
 
                                             </a>
-                                            <a href="{{route('Quiz.edit',$pro->id)}}">
-
-                                                        <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Edit</button>
-
-                                                </a>
-
-                                                    <form method="post" action="{{route('Quiz.destroy',$pro->id)}}">
-                                                        @method('delete')
-                                                        @csrf
-
-                                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-
-
-                                                    </form>
 
                                             </div>
                                         </td>
