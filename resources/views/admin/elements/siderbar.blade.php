@@ -85,6 +85,15 @@
 
             </li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <i class="flaticon-050-info"></i>
+                <span class="nav-text">Kỳ Thi </span>
+            </a>
+            <ul aria-expanded="false">
+                <li><a href="{{route('add.Time')}}">Tạo kỳ thi</a></li>
+                <li><a href="{{route('list.Time')}}">Danh sách kỳ thi</a></li>
+            </ul>
+        </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-050-info"></i>
                     <span class="nav-text">Đề Thi </span>
                 </a>

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuizConTroller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\examController;
+use App\Http\Controllers\TimeExamController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -40,5 +41,13 @@ Route::prefix('exam')->group(function () {
     Route::get('addQz/{id}', [examController::class, 'addQz'])->name('add.qz.exam');
     Route::post('addQzz', [examController::class, 'addQzPost'])->name('add.qz.exam.post');
     Route::post('delete/{id}', [examController::class, 'deleteQz'])->name('delete.qz.exam');
+});
+Route::prefix('time-exam')->group(function () {
+    Route::get('addTime', [TimeExamController::class, 'add'])->name('add.Time');
+    Route::get('listTime', [TimeExamController::class, 'list'])->name('list.Time');
+    Route::post('addTime', [TimeExamController::class, 'addPost'])->name('add.Time.post');
+    Route::get('delete/{id}', [TimeExamController::class, 'delete'])->name('delete.Time');
+    Route::get('addstudent/{id}', [TimeExamController::class, 'addStudent'])->name('add.list.student');
+    Route::post('addstudent', [TimeExamController::class, 'addStudentPost'])->name('add.list.student.post');
 
 });
