@@ -31,37 +31,49 @@
                                 <thead>
                                     <tr>
                                         <th>Stt</th>
-                                        <th>Name</th>
+                                        <th>Môn</th>
+                                        <th>Link</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($pro as $key => $pro)
+                                    @foreach($ListTimeExam as $key => $pro)
                                     <tr>
-
-                                        <td>{{$key}}</td>
-                                        <td>{{$pro ->name}}</td>
+                                        <td>Đề {{$key+1}}</td>
+                                        <td>{{$timeExam ->name}}</td>
+                                        <td><input type="text" value="{{ route('linkExamRun', ['id'=>$id,'id_exam_random'=>$pro->id]) }}" id="InputLink{{$key}}"></td>
                                         <td style="margin-right: 10px;">
                                             <div class="d-flex">
-                                            <a href="{{route('listLink',$pro->id)}}" >
-                                                <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Danh sách link</button>
-                                            </a>
-                                            <a href="{{route('delete.Time',$pro->id)}}">
+                                                <button class="btn btn-sm" style="margin-right: 10px;" onclick="copyLink{{$key}}()">Copy link</button>
+                                            {{-- <a href="{{route('delete.Time',$pro->id)}}">
                                                 <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Delete</button>
                                             </a>
                                             <a href="{{route('add.list.student',$pro->id)}}">
                                                 <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Add student</button>
-                                            </a>
+                                            </a> --}}
                                             </div>
                                         </td>
+                                        <script>
+                                            function copyLink{{$key}}() {
+                                              // Get the text field
+                                              var copyText{{$key}} = document.getElementById("InputLink{{$key}}");
+
+                                              // Select the text field
+                                              copyText{{$key}}.select();
+                                              copyText{{$key}}.setSelectionRange(0, 99999); // For mobile devices
+
+                                              // Copy the text inside the text field
+                                              navigator.clipboard.writeText(copyText{{$key}}.value);
+
+                                              // Alert the copied text
+                                              alert("Sao chép link thành công: " + copyText{{$key}}.value);
+                                            }
+                                        </script>
                                         @endforeach
                                     </tr>
 
                                 </tbody>
                             </table>
-
-
-
                     </div>
                         </div>
                     </div>
@@ -71,5 +83,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection

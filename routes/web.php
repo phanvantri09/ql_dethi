@@ -49,5 +49,6 @@ Route::prefix('time-exam')->group(function () {
     Route::get('delete/{id}', [TimeExamController::class, 'delete'])->name('delete.Time');
     Route::get('addstudent/{id}', [TimeExamController::class, 'addStudent'])->name('add.list.student');
     Route::post('addstudent', [TimeExamController::class, 'addStudentPost'])->name('add.list.student.post');
-
+    Route::get('listLink/{id}', [TimeExamController::class, 'listLink'])->name('listLink');
+    Route::get('linkExamRun/{id}/{id_exam_random}', [TimeExamController::class, 'linkExamRun'])->name('linkExamRun');
 });

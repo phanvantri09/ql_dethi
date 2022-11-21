@@ -10,6 +10,7 @@ use App\Models\Exam;
 use App\Models\TimeExam;
 use App\Models\User;
 use App\Models\ListTimeExam;
+use App\Models\ExamRandom;
 
 class TimeExamController extends Controller
 {
@@ -26,6 +27,7 @@ class TimeExamController extends Controller
     }
     public function addPost(Request $request){
         //dd($request->all());
+
         $id_teach = implode(',',$request->id_teach);
         $id_exam = implode(',',$request->id_exam);
         $data = new TimeExam();
@@ -33,8 +35,24 @@ class TimeExamController extends Controller
         $data->id_exam =  $id_exam;
         $data->name =  $request->name;
         $data->time_start =  $request->time_start;
+        $data->acount_exam =  $request->acount_exam;
         $data->save();
+        if($request->has('acount_exam')){
+            //shuffle đảo loạn mảng
+            foreach ($request->id_exam as $key => $value) {
+                $exam = Exam::find($value);
+                $exam1 = explode(',',$exam->id_quiz);
 
+                for ($i=0; $i < $request->acount_exam; $i++) {
+                    $ExamRandom = new ExamRandom();
+                    $ExamRandom->id_time_exam = $data->id;
+                    $ExamRandom->id_exam =  $value;
+                    $exam11 = $this->random_array($exam1);
+                    $ExamRandom->id_item_exam = implode(',', $exam11);
+                    $ExamRandom->save();
+                }
+            }
+        }
         return back();
     }
     public function list(){
@@ -65,5 +83,37 @@ class TimeExamController extends Controller
         $data->id_time_exam =  $request->id_time_exam;
         $data->save();
         return back();
+    }
+    public function listLink($id){
+        $timeExam = TimeExam::find($id);
+        $ListTimeExam = ExamRandom::where('id_time_exam','=',$id)->get();
+        return view('admin.timeexam.listLink', compact(['ListTimeExam','id','timeExam']));
+    }
+    public function linkExamRun(){
+
+    }
+    public function random_array($array) {
+        $random_array = array();
+        // array start by index 0
+        $countArray = count($array) - 1;
+
+        // while my array is not empty I build a random value
+        while (count($array) != 0) {
+            //mt_rand return a random number between two value
+            $randomValue = mt_rand(0, $countArray);
+            $random_array[] = $array[$randomValue];
+
+            // If my count of my tab is 4 and mt_rand give me the last element,
+            // array_splice will not unset the last item
+            if(($randomValue + 1) == count($array)) {
+                array_splice($array, $randomValue, ($randomValue - $countArray + 1));
+            } else {
+                array_splice($array, $randomValue, ($randomValue - $countArray));
+            }
+
+            $countArray--;
+        }
+
+        return $random_array;
     }
 }

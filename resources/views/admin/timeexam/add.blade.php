@@ -80,12 +80,12 @@
                                                 <input type="time" class="form-control" name="time_start"  required="">
                                             </div>
                                         </div>
-                                        {{-- <div class="mb-3 row">
+                                        <div class="mb-3 row">
                                             <label class="col-sm-1 col-form-label">Số lượng chia đề</label>
                                             <div class="col-lg-6">
                                                 <input type="number" class="form-control" name="acount_exam" required="">
                                             </div>
-                                        </div> --}}
+                                        </div>
 
                                     </div>
                                     <div class="text-start mt-4 mb-3">
