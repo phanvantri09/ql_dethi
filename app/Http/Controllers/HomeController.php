@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Cate;
+use App\Models\Exam;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,7 +22,7 @@ class HomeController extends Controller
     public function index()
     {
         $category = Cate::all();
-       
-        return view('user.home', compact('category'));
+         $exam = Exam::all();
+        return view('user.home', compact('category', 'exam'));
     }
 }
