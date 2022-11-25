@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Exam;
 use App\Models\Cate;
 use App\Models\quiz;
+use App\Models\User;
+
 class examController extends Controller
 {
     public function deleteQz($id){
@@ -117,5 +119,68 @@ class examController extends Controller
         // dd(explode(",",$qz));
         return back();
         //
+    }
+
+
+
+
+    public function readmore($id){
+
+
+        $view = Exam::find($id);
+        return view('user.detailexam', compact('view'));
+        
+    }
+
+
+    public function kiemtra($id){
+        $cauhoi = quiz::all();
+        $exam = new Exam();
+        $exam = Exam::find($id);
+        $data = explode(',',$exam->id_quiz) ;
+
+        return view('user.kiemtra', compact('data','cauhoi'));
+        
+    }
+    
+    public function diemso(Request $request ,$id){
+       
+        return view('user.kiemtra', compact('data','cauhoi'));
+        
+    }
+    public function diemso1(Request $request, $id_khoahoc){
+        //  dd($request->all());
+        $khoahoc = Course::find($id_khoahoc);
+        $quiz = quiz::where('id_product','=',$id_khoahoc)->where('id_video','=',$request->id_video)->get();
+        // dd($quiz);
+        $data = $request->all();
+        // dd($data['cauhoi'.$k]);
+        $len = count($data) - 1;
+        $lenqu = count($quiz);
+        // dd($lenqu);
+        $count = 0;
+        $countfeal =0;
+        foreach($quiz as $key => $qu){
+            $m = 'cauhoi'.$qu->id;
+            if(isset($data[$m]) && $qu->traloi == $data[$m]){
+                $count++;
+            }
+            else{
+                $countfeal++;
+            }
+        }
+        $kq = ($count/$lenqu)*100;
+        if ($kq == 0 && $countfeal == $lenqu) {
+            $mes = "Bạn nên học thêm vì kết quả của bạn là 0";
+            return view('user.pages.course.ketqua', compact(['khoahoc','mes']));
+        }
+        $mes = "Số điểm bạn đạt được là : ".$count."/".$lenqu.' tương đương '.$kq.'% chúc mừng bạn.' ;
+        return view('user.pages.course.ketqua', compact(['khoahoc','mes']));
+    }
+
+    public function Exam(){
+        $data = new Exam();
+        $data = Exam::all();
+        return view('user.master', compact('data'));
     }
 }

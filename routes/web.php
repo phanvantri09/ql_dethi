@@ -29,6 +29,9 @@ Route::resource('/Quiz', QuizConTroller::class);
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/detailexam/{id}', [examController::class, 'readmore'])->name('readmore');
+Route::get('/kiemtra/{id}', [examController::class, 'kiemtra'])->name('kiemtra');
+Route::post('/diemso/{id}', [examController::class, 'diemso'])->name('diemso');
 Route::get('admin/home', [AdminController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
 Route::prefix('exam')->group(function () {
     Route::get('list', [examController::class, 'list'])->name('list.exam');
