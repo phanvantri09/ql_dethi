@@ -7,6 +7,11 @@ use App\Models\Exam;
 use App\Models\Cate;
 use App\Models\quiz;
 use App\Models\User;
+use App\Models\ListTimeExam;
+use App\Models\ExamRandom;
+use App\Models\TimeExam;
+use App\Models\Result;
+use Illuminate\Support\Facades\Auth;
 
 class examController extends Controller
 {
@@ -69,6 +74,7 @@ class examController extends Controller
         //
     }
     public function addQzPost(Request $request){
+        // dd($request);
         $qz = new Exam();
         $qz = Exam::find($request->id);
         // id của DB
@@ -106,47 +112,107 @@ class examController extends Controller
                 // chỉ láy cái giống để xóa
                 // insert thêm cái mới.
             }
-            //dd($dataMain);
-            $dataMain = implode(',',$dataMain);
-            $qz->id_quiz =$dataMain;
-            $qz->save();
-            return back();
+
+            $qqqq = implode(",",$dataMain);
+            $qz->id_quiz =$qqqq;
         }else{
             // dd(null);
             $qz->id_quiz ="";
-            $qz->save();
         }
+        $qz->save();
+
         // dd(explode(",",$qz));
         return back();
         //
     }
 
+    public function readmore(){
+        $id = Auth::id();
+        if(!$id){
+            return route('login');
+        }
+        $view = User::find($id);
+        $timeExam = TimeExam::all();
+        $cate = Cate::all();
+        $exam = Exam::all();
+        $ExamRandom = ExamRandom::where('id_time_exam','=',$id)->get();
+        $ListStudenExam = ListTimeExam::where('id_student','LIKE',"%".$id."%")->get();
+        $teacher = User::where( 'is_admin', '=' , 2 )->get();
+        return view('user.detailexam', compact(['view','ListStudenExam','id','timeExam','cate','exam','teacher']));
 
-
-
-    public function readmore($id){
-
-
-        $view = Exam::find($id);
-        return view('user.detailexam', compact('view'));
-        
     }
 
 
-    public function kiemtra($id){
-        $cauhoi = quiz::all();
-        $exam = new Exam();
-        $exam = Exam::find($id);
-        $data = explode(',',$exam->id_quiz) ;
+    public function kiemtra($idExam, $idTimeExam){
+        $id = Auth::id();
+        if(!$id){
+            return route('login');
+        }
+        $exam = Exam::find($idExam);
+        $time = $exam->time * 60 * 1000;
+        $id_sub = $exam->id_sub;
+        $timeExam = TimeExam::find($idTimeExam);
+        $time_start = $timeExam->time_start;
+        $accountExam = $timeExam->acount_exam;
 
-        return view('user.kiemtra', compact('data','cauhoi'));
-        
+        $examMainList =  ExamRandom::where('id_exam','=',$idExam)->where('id_time_exam','=',$idTimeExam)->get()->toArray();
+        $listStudent = ListTimeExam::where('id_exam','=',$idExam)->where('id_time_exam','=',$idTimeExam)->first();
+        $arrliststudent = explode(',',$listStudent->id_student);
+        $key = array_search($id, $arrliststudent) + 1;
+        $choeseExamRandom = $examMainList[array_rand($examMainList)];
+        $quizAll = quiz::all();
+
+        $examRandom = ExamRandom::find($choeseExamRandom['id']);
+
+        $id_random_exam = $examRandom->id;
+        $arrQuiz = explode(',',$examRandom->id_item_exam) ;
+
+        return view('user.kiemtra', compact('time_start','time','arrQuiz','quizAll','id_sub','idExam','id_random_exam','idTimeExam'));
+
     }
-    
-    public function diemso(Request $request ,$id){
-       
-        return view('user.kiemtra', compact('data','cauhoi'));
-        
+
+    public function diemso(Request $request ){
+        $id = Auth::id();
+        if(!$id){
+            return route('login');
+        }
+        $data = $request->all();
+        $ExamRandom = ExamRandom::find($request->id_random_exam);
+        $qz =  explode(',',$ExamRandom->id_item_exam);
+        $allQz = quiz::all();
+
+        $arrFi = array();
+        foreach($allQz as  $quall){
+            foreach($qz as  $qu){
+                if($quall->id == $qu){
+                    array_push($arrFi, $quall);
+                }
+            }
+        }
+        $countsie = count($arrFi);
+        $count = 0;
+        $countfeal =0;
+        foreach($arrFi as $quall){
+                $m = 'cauhoi'.$quall->id;
+                if(isset($data[$m]) && $quall->traloi == $data[$m]){
+                    $count++;
+                }
+                else{
+                    $countfeal++;
+            }
+        }
+        $point = $count*(10/$countsie);
+        //  dd([$point]);
+        $result =  new Result();
+        $result->id_sub = $request->id_sub;
+        $result->id_exam = $request->id_exam;
+        $result->id_random_exam = $request->id_random_exam;
+        $result->id_time_exam = $request->id_time_exam;
+        $result->result = $point;
+        $result->id_user = $id;
+        $result->save();
+        return view('user.result', compact('countsie','point','count', 'countfeal'));
+
     }
     public function diemso1(Request $request, $id_khoahoc){
         //  dd($request->all());

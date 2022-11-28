@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -46,14 +47,14 @@ class UserController extends Controller
 
 
 
-       
+
         $pro = new User();
         $pro->name = $request->get('name');
         $pro->email = $request->get('email');
         $pro->password = Hash::make($request->get('password'));
         $pro->is_admin = '2';
         $pro->save();
-        
+
 
         return redirect()->back()->with('massage', 'success');
     }
@@ -69,7 +70,7 @@ class UserController extends Controller
         //
     }
 
-    /**  
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

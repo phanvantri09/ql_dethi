@@ -39,12 +39,15 @@
                                     <div class="toolbar mb-4" role="toolbar">
                                     </div>
 
-                                    <input type="hidden" name="id_time_exam" class="form-control" value="{{$id}}" required="">
+                                    <input type="hidden" name="id_time_exam" class="form-control" value="{{$id_time_exam}}" required="">
                                     <div class="compose-content">
                                         <div class="mb-3 row">
                                             <label class="col-sm-1 col-form-label">Chọn Đề </label>
                                             <div class="col-lg-6">
-                                                <select class="default-select  form-control wide" name="id_exam">
+                                                <input style="border: none" type="text" value="{{$examMain->name}}" >
+                                                <input type="hidden" name="id_exam" value="{{$examMain->id}}" >
+                                                {{-- <select class="default-select  form-control wide" name="id_exam">
+
                                                 @foreach ($exam as $ex)
                                                 @foreach ($cate as $ca)
                                                 @if ($ex == $ca->id)
@@ -52,16 +55,27 @@
                                                 @endif
                                                 @endforeach
                                                 @endforeach
-                                                </select>
+                                                </select> --}}
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Thêm học sinh vào lớp</label>
+                                            <label class="col-sm-1 col-form-label">Thêm học sinh vào đề thi</label>
                                             <div class="col-lg-6">
-                                                @foreach ($student as $item)
+                                                @if (isset($arrayhave) && isset($arrayhave))
+                                                @foreach ($arrayno as $item)
                                                 <input type="checkbox" name="id_student[]" value="{{$item->id}}" >
                                                 <label style="margin-right: 5px" for="scales">{{$item->name}}</label>
                                                 @endforeach
+                                                @foreach ($arrayhave as $item)
+                                                <input checked type="checkbox" name="id_student[]" value="{{$item->id}}" >
+                                                <label style="margin-right: 5px" for="scales">{{$item->name}}</label>
+                                                @endforeach
+                                                @else
+                                                @foreach ($student as $item)
+                                                <input  type="checkbox" name="id_student[]" value="{{$item->id}}" >
+                                                <label style="margin-right: 5px" for="scales">{{$item->name}}</label>
+                                                @endforeach
+                                                @endif
                                                 </div>
                                             </div>
                                         </div>

@@ -12,14 +12,13 @@ $cate = Cate::all();
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="{{ route('home') }}" class="nav-item nav-link active">Trang Chủ</a>
-       
-           
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Danh Mục</a>
-               
-            </div>
-          
-           
+
+
+
+                <a href="{{ route('readmore')}}" class="nav-link ">Kiểm tra môn thi</a>
+
+
+
         </div>
         @guest
             @if (Route::has('login'))

@@ -11,6 +11,8 @@ use App\Models\TimeExam;
 use App\Models\User;
 use App\Models\ListTimeExam;
 use App\Models\ExamRandom;
+use App\Models\ListStudenExam;
+use App\Models\Result;
 
 class TimeExamController extends Controller
 {
@@ -65,28 +67,115 @@ class TimeExamController extends Controller
         TimeExam::find($id)->delete();
        return redirect()->back()->with('massage', 'success');
     }
-    public function addStudent($id){
+    public function diemthi($id_exam, $id_time_exam){
+        $timeExam = ListStudenExam::where('id_exam', $id_exam)->where('id_time_exam', $id_time_exam)->first();
+        $id_student = explode(',',$timeExam->id_student);
+        $arr = array();
+        $arrStudent = array();
+        foreach ($id_student as $key => $tru) {
+            $timeExam = Result::where('id_exam', $id_exam)->where('id_time_exam', $id_time_exam)->where('id_user', $tru)->first();
+            if(!empty($timeExam)){
+                $k = User::find($tru);
+                array_push($arr, $timeExam);
+                array_push($arrStudent, $k);
+            }
+        }
 
-        $timeExam = new TimeExam();
+        return view ('admin.timeexam.diemthi',compact(['arr','arrStudent']));
+
+    }
+    public function listExaminTime($id){
         $timeExam = TimeExam::find($id);
-        $exam = explode(',', $timeExam->id_exam);
-        // dd($exam);
-        $cate = TimeExam::all();
-        $student = User::where('is_admin','=',0)->get();
-        return view('admin.timeexam.addStudent', compact(['student','id','timeExam','exam','cate']));
+        $list_exam = explode(',',$timeExam->id_exam) ;
+        $exam = Exam::all();
+        $subs = Cate::all();
+    return view('admin.timeexam.listExam', compact(['timeExam','exam','list_exam','subs','id']));
+    }
+    public function addStudent($id, $id_time_exam){
+        $ListStudenExam = ListStudenExam::where('id_time_exam','=',$id_time_exam)->where('id_exam','=',$id)->first();
+        if(!$ListStudenExam){
+            $examMain = Exam::find($id);
+            $student = User::where('is_admin','=',0)->get();
+            return view('admin.timeexam.addStudent', compact(['student','id','id_time_exam','examMain']))->with('status', 'Oke');
+        }
+        else{
+            $examMain = Exam::find($id);
+            $ListStudenExam = explode(',', $ListStudenExam->id_student);
+            $timeExam = new TimeExam();
+            $timeExam = TimeExam::find($id_time_exam);
+            $exam = explode(',', $timeExam->id_exam);
+            // dd($exam);
+            $cate = TimeExam::all();
+            $student = User::where('is_admin','=',0)->get();
+            $array = array();
+            foreach ($student as $value) {
+                array_push($array, $value->id);
+            }
+            $listNo = array_diff($array, $ListStudenExam);
+                //gioongs
+            $listHave = array_intersect($array, $ListStudenExam);
+            $arrayhave = array();
+            foreach ($listHave as $value) {
+                $studentHave = User::find($value);
+                array_push($arrayhave, $studentHave);
+            }
+
+            $arrayno = array();
+            foreach ($listNo as $value) {
+                $studentHave = User::find($value);
+                array_push($arrayno, $studentHave);
+            }
+
+            $id_exam = $id;
+            return view('admin.timeexam.addStudent', compact(['student','id','timeExam','exam','cate','arrayhave','arrayno','id_exam','id_time_exam','examMain']))->with('status', 'Oke');
+        }
     }
     public function addStudentPost(Request $request){
-        $id_student = implode(',',$request->id_student);
-        $data = new ListTimeExam();
-        $data->id_student = $id_student;
-        $data->id_exam =  $request->id_exam;
-        $data->id_time_exam =  $request->id_time_exam;
-        $data->save();
-        return back();
+        $id_time_exm = $request->id_time_exam;
+        $dataMain = array();
+        $ListStudenExam = ListStudenExam::where('id_time_exam','=',$id_time_exm)->first();
+        if (empty($ListStudenExam)) {
+            $id_student = implode(',',$request->id_student);
+            $data = new ListTimeExam();
+            $data->id_student = $id_student;
+            $data->id_exam =  $request->id_exam;
+            $data->id_time_exam =  $request->id_time_exam;
+            $data->save();
+            return back();
+        }
+        else{
+            $id_studen_exam =  explode(',',$ListStudenExam->id_student);
+            $id_student_re = implode(',',$request->id_student);
+
+            $stDBdff = array_diff($id_studen_exam, $request->id_student);
+            //láy id cập nhật
+            $stRQdff = array_diff($request->id_student, $id_studen_exam);
+            //gioongs
+            $stIntersect = array_intersect($request->id_student,$id_studen_exam);
+            if(!empty($stIntersect))
+                {
+                    foreach ($stIntersect as  $item) {
+                        array_push($dataMain , $item);
+                    }
+                }
+                if(!empty($stRQdff))
+                {
+                    foreach ($stRQdff as  $item) {
+                        array_push($dataMain , $item);
+                    }
+                }
+            $dataMain = implode(',',$dataMain);
+            $ListStudenExam->id_student =$dataMain;
+            $ListStudenExam->save();
+            return back();
+        }
+
+
     }
     public function listLink($id){
         $timeExam = TimeExam::find($id);
         $ListTimeExam = ExamRandom::where('id_time_exam','=',$id)->get();
+
         return view('admin.timeexam.listLink', compact(['ListTimeExam','id','timeExam']));
     }
     public function linkExamRun(){

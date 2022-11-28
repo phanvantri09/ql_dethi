@@ -29,9 +29,10 @@ Route::resource('/Quiz', QuizConTroller::class);
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/detailexam/{id}', [examController::class, 'readmore'])->name('readmore');
-Route::get('/kiemtra/{id}', [examController::class, 'kiemtra'])->name('kiemtra');
-Route::post('/diemso/{id}', [examController::class, 'diemso'])->name('diemso');
+Route::get('/detailexam', [examController::class, 'readmore'])->name('readmore');
+Route::get('/kiemtra/{idExam}/{idTimeExam}', [examController::class, 'kiemtra'])->name('kiemtra');
+
+Route::post('/diemso', [examController::class, 'diemso'])->name('diemso');
 Route::get('admin/home', [AdminController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
 Route::prefix('exam')->group(function () {
     Route::get('list', [examController::class, 'list'])->name('list.exam');
@@ -43,14 +44,17 @@ Route::prefix('exam')->group(function () {
 
     Route::get('addQz/{id}', [examController::class, 'addQz'])->name('add.qz.exam');
     Route::post('addQzz', [examController::class, 'addQzPost'])->name('add.qz.exam.post');
-    Route::post('delete/{id}', [examController::class, 'deleteQz'])->name('delete.qz.exam');
+    Route::get('delete/{id}', [examController::class, 'deleteQz'])->name('delete.qz.exam');
 });
 Route::prefix('time-exam')->group(function () {
+    Route::get('diemthi/{id_exam}/{id_time_exam}', [TimeExamController::class, 'diemthi'])->name('diemthi');
+
     Route::get('addTime', [TimeExamController::class, 'add'])->name('add.Time');
     Route::get('listTime', [TimeExamController::class, 'list'])->name('list.Time');
+    Route::get('listExamInTime/{id}', [TimeExamController::class, 'listExaminTime'])->name('list.listExaminTime');
     Route::post('addTime', [TimeExamController::class, 'addPost'])->name('add.Time.post');
     Route::get('delete/{id}', [TimeExamController::class, 'delete'])->name('delete.Time');
-    Route::get('addstudent/{id}', [TimeExamController::class, 'addStudent'])->name('add.list.student');
+    Route::get('addstudent/{id_exam}/{id_time_exam}', [TimeExamController::class, 'addStudent'])->name('add.list.student');
     Route::post('addstudent', [TimeExamController::class, 'addStudentPost'])->name('add.list.student.post');
     Route::get('listLink/{id}', [TimeExamController::class, 'listLink'])->name('listLink');
     Route::get('linkExamRun/{id}/{id_exam_random}', [TimeExamController::class, 'linkExamRun'])->name('linkExamRun');

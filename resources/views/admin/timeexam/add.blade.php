@@ -62,6 +62,7 @@
 
                                                 @foreach ($ex as $e)
                                                 <div class="col-7">
+
                                                     <input type="checkbox" name="id_exam[]" value="{{$e['id']}}" >
                                                 <label style="margin-right: 5px" for="scales">{{$e['name']}}</label>
                                                 </div>
@@ -77,7 +78,8 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-1 col-form-label">Thời gian bắt đầu thi.</label>
                                             <div class="col-lg-6">
-                                                <input type="time" class="form-control" name="time_start"  required="">
+                                                <input id="party"  class="form-control" type="datetime-local" name="time_start" required=""/>
+                                                {{-- <input type="date" class="form-control" name="time_start"  required=""> --}}
                                             </div>
                                         </div>
                                         <div class="mb-3 row">

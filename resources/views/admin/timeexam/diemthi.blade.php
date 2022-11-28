@@ -31,38 +31,30 @@
                                 <thead>
                                     <tr>
                                         <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Action</th>
+                                        <th>Tên</th>
+                                        <th>Điểm</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($pro as $key => $pro)
+                                    @foreach($arr as $key => $pro)
                                     <tr>
-
-                                        <td>{{$key}}</td>
-                                        <td>{{$pro ->name}}</td>
-                                        <td style="margin-right: 10px;">
-                                            <div class="d-flex">
-                                            {{-- <a href="{{route('listLink',$pro->id)}}" >
-                                                <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Danh sách link</button>
-                                            </a> --}}
-                                            <a href="{{route('delete.Time',$pro->id)}}">
-                                                <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </a>
-                                            <a href="{{route('list.listExaminTime',$pro->id)}}">
-                                                <button style="margin-right: 10px;" type="submit" class="btn btn-danger btn-sm">Danh sách các môn <br>trong kỳ thi thi</button>
-                                            </a>
-
-                                            </div>
+                                        <td>{{$key+1}}</td>
+                                        <td>
+                                            @foreach ($arrStudent as $st)
+                                                @if ($st->id == $pro->id_user)
+                                                    {{$st->name}}
+                                                @endif
+                                            @endforeach
                                         </td>
+                                        <td>
+                                            {{$pro->result}}
+                                        </td>
+
                                         @endforeach
                                     </tr>
 
                                 </tbody>
                             </table>
-
-
-
                     </div>
                         </div>
                     </div>
@@ -72,5 +64,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection
