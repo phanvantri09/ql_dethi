@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="compose-content">
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Giáo viên coi thi</label>
+                                            <label class="col-sm-4 col-form-label">Giáo viên coi thi</label>
                                             <div class="col-lg-6">
                                                 @foreach ($teach as $item)
                                                 <input type="checkbox" name="id_teach[]" value="{{$item->id}}" >
@@ -47,13 +47,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Tên đợt thi</label>
+                                            <label class="col-sm-4 col-form-label">Tên đợt thi</label>
                                             <div class="col-lg-6">
                                                 <input type="text" name="name" class="form-control" required="">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Chọn đề thi</label>
+                                            <label class="col-sm-4 col-form-label">Chọn đề thi</label>
                                             <div class="col-lg-6">
                                                 @foreach ($exam  as $key => $ex)
                                                 @foreach ($cate as $ca)
@@ -76,14 +76,21 @@
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Thời gian bắt đầu thi.</label>
+                                            <label class="col-sm-4 col-form-label">Thời gian bắt đầu thi.</label>
                                             <div class="col-lg-6">
                                                 <input id="party"  class="form-control" type="datetime-local" name="time_start" required=""/>
                                                 {{-- <input type="date" class="form-control" name="time_start"  required=""> --}}
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
-                                            <label class="col-sm-1 col-form-label">Số lượng chia đề</label>
+                                            <label class="col-sm-4 col-form-label">Thời gian kết thúc không được vào thi nữa.</label>
+                                            <div class="col-lg-6">
+                                                <input id="party"  class="form-control" type="datetime-local" name="time_end" required=""/>
+                                                {{-- <input type="date" class="form-control" name="time_start"  required=""> --}}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-4 col-form-label">Số lượng chia đề</label>
                                             <div class="col-lg-6">
                                                 <input type="number" class="form-control" name="acount_exam" required="">
                                             </div>
@@ -91,7 +98,7 @@
 
                                     </div>
                                     <div class="text-start mt-4 mb-3">
-                                        <button class="btn btn-primary btn-sl-sm me-2" type="submit"><span class="me-2"><i class="fa fa-paper-plane"></i></span>Submit</button>
+                                        <button class="btn btn-primary btn-sl-sm me-2" type="submit"><span class="me-2"><i class="fa fa-paper-plane"></i></span>Tạo kỳ thi</button>
                                     </div>
                                 </form>
                             </div>

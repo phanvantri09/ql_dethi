@@ -153,6 +153,7 @@ class examController extends Controller
         $id_sub = $exam->id_sub;
         $timeExam = TimeExam::find($idTimeExam);
         $time_start = $timeExam->time_start;
+        $time_end = $timeExam->time_end;
         $accountExam = $timeExam->acount_exam;
 
         $examMainList =  ExamRandom::where('id_exam','=',$idExam)->where('id_time_exam','=',$idTimeExam)->get()->toArray();
@@ -167,7 +168,7 @@ class examController extends Controller
         $id_random_exam = $examRandom->id;
         $arrQuiz = explode(',',$examRandom->id_item_exam) ;
 
-        return view('user.kiemtra', compact('time_start','time','arrQuiz','quizAll','id_sub','idExam','id_random_exam','idTimeExam'));
+        return view('user.kiemtra', compact('time_end','time_start','time','arrQuiz','quizAll','id_sub','idExam','id_random_exam','idTimeExam'));
 
     }
 

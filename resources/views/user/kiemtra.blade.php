@@ -25,6 +25,8 @@
             <div>Thời gian bắt đầu thi:</div>
             <form action="{{ route('diemso') }}" method="post" enctype="multipart/form-data" role="form" id="myForm">
               @csrf
+
+              <input style="display: none" type="datetime-local" id="time_end" name="time_end" value="{{$time_end}}">
               <input style="display: none" type="number" id="timee" name="time" value="{{$time}}">
               <input style="display: none" type="datetime-local" id="time_start" name="time_start" value="{{$time_start}}">
               <input type="hidden" name="id_sub" value="{{$id_sub}}">
@@ -75,19 +77,32 @@
 
         let time_start = document.getElementById('time_start').value;
 
-        const time_startttt = new Date(time_start);
+        let time_end = document.getElementById('time_end').value;
+        if(time_end == null){
+            alert("Đã qua thời gian để thi, hẹn bạn trong kỳ tiếp theo.");
+            location.reload();
+        }
 
+        const time_startttt = new Date(time_start);
+        const time_enddd = new Date(time_end);
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date+' '+time;
-        if(time_startttt - today <= 0){
+
+        if(time_enddd - today >= 0){
+            if(time_startttt - today <= 0){
             document.getElementById("main-form").style.display = "block";
             document.getElementById("button-start").style.display = "none";
             setTimeout(function(){ document.getElementById("myForm").submit(); }, 60000);// bỏ k vào
-        }
-        else{
-            alert("Chưa tới giờ thi vui vòng đợi");
+            }
+            else{
+                alert("Chưa tới giờ thi vui vòng đợi");
+                location.reload();
+            }
+        } else {
+            alert("Đã qua thời gian để thi, hẹn bạn trong kỳ tiếp theo.");
+            location.reload();
         }
 
    }

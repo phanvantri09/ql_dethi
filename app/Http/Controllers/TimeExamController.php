@@ -37,6 +37,7 @@ class TimeExamController extends Controller
         $data->id_exam =  $id_exam;
         $data->name =  $request->name;
         $data->time_start =  $request->time_start;
+        $data->time_end =  $request->time_end;
         $data->acount_exam =  $request->acount_exam;
         $data->save();
         if($request->has('acount_exam')){
@@ -126,7 +127,7 @@ class TimeExamController extends Controller
                 array_push($arrayno, $studentHave);
             }
 
-            $id_exam = $id;
+        $id_exam = $id;
             return view('admin.timeexam.addStudent', compact(['student','id','timeExam','exam','cate','arrayhave','arrayno','id_exam','id_time_exam','examMain']))->with('status', 'Oke');
         }
     }

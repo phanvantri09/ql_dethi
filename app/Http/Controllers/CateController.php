@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Cate;
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 
 class CateController extends Controller
@@ -42,16 +43,20 @@ class CateController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'name' => ['required', 'unique:category', 'max:255'],
-           
+
         ]);
- 
+
         $cate = new Cate();
-      
+
         $cate->name = $request['name'];
-       
+
         $cate->save();
+        $chapter =  new Chapter();
+        $arrrr = $request->chapter;
+
         return redirect()->back()->with('massage', 'success');
     }
 
@@ -110,4 +115,42 @@ class CateController extends Controller
         Cate::find($id)->delete();
         return redirect()->back()->with('status', 'Delete Success');
     }
+    public function addC($id_cate){
+        return view('admin.chapter.Add', compact('id_cate'));
+    }
+    public function addCPost(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'name' => ['required'],
+
+        ]);
+        $chap = new Chapter;
+        $chap->name = $request['name'];
+        $chap->id_cate = $request['id_cate'];
+        $chap->save();
+        return back()->with('status', 'thành công');
+    }
+    public function editC($id){
+        $chap = Chapter::find($id);
+        return view('admin.chapter.Edit', compact('chap'));
+    }
+    public function editCPost(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'name' => ['required'],
+        ]);
+        $chap = Chapter::find($request->id);
+        $chap->name = $request['name'];
+        $chap->save();
+        return back()->with('status', 'thành công');
+    }
+    public function listC($id_cate){
+        $chap = Chapter::where('id_cate',$id_cate)->get();
+        return view('admin.chapter.Index', compact('chap'));
+    }
+    public function deleteC($id){
+        Chapter::find($id)->delete();
+        return redirect()->back()->with('status', 'Delete Success');
+    }
+
 }

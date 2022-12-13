@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cate;
 use App\Models\Cates;
 use App\Models\quiz;
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 
 class QuizConTroller extends Controller
@@ -30,7 +31,12 @@ class QuizConTroller extends Controller
 
 
         $cate = Cate::all();
-       return view('admin.quiz.add',compact("cate"));
+        // dd($cate);
+        $chap = Chapter::all();
+        $cateeee = Cate::all();
+        // dd($chap);
+
+       return view('admin.quiz.add',compact(["cate","chap",'cateeee']));
     }
 
     /**
@@ -41,15 +47,17 @@ class QuizConTroller extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            
+
             'cauhoi' => 'required',
             'c1' => 'required',
             'c2' => 'required',
             'c3' => 'required',
             'c4' => 'required',
             'traloi' => 'required',
-            'id_cate' => 'required'
+            'id_cate' => 'required',
+            'id_chapter'=> 'required'
         ]);
         $pro = new quiz();
         $pro->cauhoi = $request->get('cauhoi');
@@ -58,11 +66,12 @@ class QuizConTroller extends Controller
         $pro->c3 = $request->get('c3');
         $pro->c4 = $request->get('c4');
         $pro->traloi = $request->get('traloi');
+        $pro->id_chapter = $request->get('id_chapter');
         $pro->id_cate = $request->get('id_cate');
-        
+
         $pro->save();
         return redirect()->back()->with('massage', 'success');
-    
+
     }
 
     /**
@@ -105,14 +114,14 @@ class QuizConTroller extends Controller
             'traloi' => 'required'
         ]);
         $pro = quiz::find($request->id);
-       
+
         $pro->cauhoi = $request->get('cauhoi');
         $pro->c1 = $request->get('c1');
         $pro->c2 = $request->get('c2');
         $pro->c3 = $request->get('c3');
         $pro->c4 = $request->get('c4');
         $pro->traloi = $request->get('traloi');
-        
+
         $pro->save();
         return redirect()->back()->with('massage', 'success');
     }

@@ -36,31 +36,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cate as $key => $cate)
+                                    @foreach($chap as $key => $cate)
                                     <tr>
 
                                         <td>{{$key}}</td>
                                         <td>{{$cate ->name}}</td>
 
                                         <td>
-                                            <div class="d-flex"> <a href="{{route('Category.show',$cate->id)}}" >
+                                            <div class="d-flex">
+                                                <a href="{{ route('editC', ['id'=>$cate->id]) }}" >
 
-                                                    <button type="submit" class="btn btn-danger btn-sm">Xem</button>
-                                              ||
-                                            </a>
-                                            <a href="{{route('Category.edit',$cate->id)}}" >
-
-                                                        <button type="submit" class="btn btn-danger btn-sm">Sửa</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm">Sửa</button>
 
                                                 </a>   ||
-                                                <a href="{{ route('addC', ['id_cate'=>$cate->id]) }}"><button type="submit" class="btn btn-success btn-sm">Thêm chương</button></a>
-                                                ||<a href="{{ route('listC', ['id_cate'=>$cate->id]) }}"><button type="submit" class="btn btn-primary btn-sm">Danh sách chương</button></a>
 
-                                                   || <form method="post" action="{{route('Category.destroy',$cate->id)}}">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                                    </form>
+                                                <a href="{{ route('deleteC', ['id'=>$cate->id]) }}" >
+
+                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+
+                                            </a>
 
                                             </div>
                                         </td>

@@ -116,18 +116,14 @@
 
                 </ul>
             </li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li><a class="has-arrow ai-icon" href="/Category" aria-expanded="false">
                     <i class="flaticon-050-info"></i>
                     <span class="nav-text">Môn Thi Trắc Nghiệm </span>
                 </a>
                 <ul aria-expanded="false">
 
-                    <li><a href="{{route('Quiz.create')}}">Thêm Đề Trắc Nghiệm</a></li>
-                    <li><a href="{{route('Quiz.index')}}">Danh Sách Đề Thi Trắc Nghiệm</a></li>
-
-
-
-
+                    <li><a href="/Category/create">Thêm Đề Trắc Nghiệm</a></li>
+                    <li><a href="/Category">Danh Sách Đề Thi Trắc Nghiệm</a></li>
                 </ul>
             </li>
             @endif

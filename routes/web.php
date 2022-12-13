@@ -24,6 +24,14 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('/admin1', AdminController::class);
 Route::resource('/Category', CateController::class);
+Route::get('themchuong/{id_cate}', [CateController::class, 'addC'])->name('addC');
+Route::post('themchuong/', [CateController::class, 'addCPost'])->name('addCPost');
+Route::get('suachuongw/{id}', [CateController::class, 'editC'])->name('editC');
+Route::post('suachuongw/', [CateController::class, 'editCPost'])->name('editCPost');
+Route::get('danhsach/{id_cate}', [CateController::class, 'listC'])->name('listC');
+Route::get('deleteC/{id}', [CateController::class, 'deleteC'])->name('deleteC');
+
+
 Route::resource('/User1', UserController::class);
 Route::resource('/Quiz', QuizConTroller::class);
 Auth::routes();
