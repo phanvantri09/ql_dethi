@@ -11,6 +11,7 @@ use App\Models\ListTimeExam;
 use App\Models\ExamRandom;
 use App\Models\TimeExam;
 use App\Models\Result;
+use App\Models\Chapter;
 use Illuminate\Support\Facades\Auth;
 
 class examController extends Controller
@@ -44,6 +45,8 @@ class examController extends Controller
     public function addQz(Exam $id){
         // cate
         //id được chọn
+        $id_sub = $id->id_sub;
+        // dd($id_sub);
         $qzDB = explode(",",$id->id_quiz);
         //láy các item được chọn
         $DBCho= array();
@@ -53,11 +56,12 @@ class examController extends Controller
             $arr = quiz::find($item);
             array_push($DBCho , $arr);
         }
-        $qz = quiz::where('id_cate','=',$id->id_sub)->get();
+        $qz = quiz::where('id_cate','=',$id->id_sub)->orderBy('id_chapter')->get();
+        // dd($qz);
         $qzall = quiz::all();
         $qzallarr= array();
         // láy tất cả id để đi so sánh
-        foreach ($qzall as $key => $item) {
+        foreach ($qz as $key => $item) {
             array_push($qzallarr , $item->id);
         }
         // láy id các câu không dc chọn
@@ -69,8 +73,9 @@ class examController extends Controller
             $arr = quiz::find($item);
             array_push($DBNo , $arr);
         }
-        // dd($DBNo);
-        return view('admin.exam.addQz',compact(['DBCho','DBNo','id']));
+        $chapter = Chapter::where('id_cate',$id_sub)->get();
+        // dd(count($chapter));
+        return view('admin.exam.addQz',compact(['DBCho','DBNo','id','chapter']));
         //
     }
     public function addQzPost(Request $request){
